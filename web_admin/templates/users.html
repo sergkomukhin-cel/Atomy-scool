@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 class="mb-4">Пользователи системы</h2>
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Полное имя</th>
+                <th>Дата регистрации</th>
+                <th>Уровень</th>
+                <th>Баллы</th>
+                <th>Приглашенных</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{ user[0] }}</td>
+                <td>@{{ user[1] if user[1] else 'не указан' }}</td>
+                <td>{{ user[2] }}</td>
+                <td>{{ user[3].strftime('%Y-%m-%d %H:%M') }}</td>
+                <td>
+                    <span class="badge bg-{% if user[4] == 1 %}secondary{% elif user[4] == 2 %}info{% elif user[4] == 3 %}warning{% else %}success{% endif %}">
+                        Уровень {{ user[4] }}
+                    </span>
+                </td>
+                <td>{{ user[5] }}</td>
+                <td>{{ user[6] }}</td>
+                <td>
+                    <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#userDetailsModal{{ user[0] }}">
+                        <i class="bi bi-info-circle"></i> Подробнее
+                    </button>
+                </td>
+            </tr>
+
+            <!-- Modal for user details -->
+            <div class="modal fade" id="userDetailsModal{{ user[0] }}" tabindex="-1" aria-labelledby="userDetailsModalLabel{{ user[0] }}" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="userDetailsModalLabel{{ user[0] }}">Подробности пользователя</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <p><strong>ID:</strong> {{ user[0] }}</p>
+                                    <p><strong>Username:</strong> @{{ user[1] if user[1] else 'не указан' }}</p>
+                                    <p><strong>Полное имя:</strong> {{ user[2] }}</p>
+                                    <p><strong>Дата регистрации:</strong> {{ user[3].strftime('%Y-%m-%d %H:%M') }}</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p><strong>Уровень:</strong> {{ user[4] }}</p>
+                                    <p><strong>Баллы:</strong> {{ user[5] }}</p>
+                                    <p><strong>Приглашенных:</strong> {{ user[6] }}</p>
+                                </div>
+                            </div>
+                            <hr>
+                            <h6>Последняя активность:</h6>
+                            <p class="text-muted">Информация о последних выполненных заданиях...</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

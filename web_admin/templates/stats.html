@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 class="mb-4">Статистика системы</h2>
+
+<div class="row">
+    <div class="col-md-3 mb-4">
+        <div class="card text-white bg-primary">
+            <div class="card-body">
+                <h5 class="card-title">{{ total_users }}</h5>
+                <p class="card-text">Всего пользователей</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-4">
+        <div class="card text-white bg-success">
+            <div class="card-body">
+                <h5 class="card-title">{{ total_completed_tasks }}</h5>
+                <p class="card-text">Выполненных заданий</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-4">
+        <div class="card text-white bg-info">
+            <div class="card-body">
+                <h5 class="card-title">{{ total_books }}</h5>
+                <p class="card-text">Книг в базе</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-4">
+        <div class="card text-white bg-warning">
+            <div class="card-body">
+                <h5 class="card-title">{{ total_videos }}</h5>
+                <p class="card-text">Видео в базе</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5>Распределение по уровням</h5>
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Уровень</th>
+                            <th>Количество пользователей</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for level in levels %}
+                        <tr>
+                            <td>Уровень {{ level[0] }}</td>
+                            <td>{{ level[1] }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5>Активность за последние 7 дней</h5>
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Дата</th>
+                            <th>Выполнено заданий</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for activity in weekly_activity %}
+                        <tr>
+                            <td>{{ activity[0].strftime('%Y-%m-%d') }}</td>
+                            <td>{{ activity[1] }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5>Экспорт данных</h5>
+            </div>
+            <div class="card-body">
+                <a href="#" class="btn btn-outline-primary me-2">
+                    <i class="bi bi-download"></i> Экспорт пользователей
+                </a>
+                <a href="#" class="btn btn-outline-primary me-2">
+                    <i class="bi bi-download"></i> Экспорт заданий
+                </a>
+                <a href="#" class="btn btn-outline-primary">
+                    <i class="bi bi-download"></i> Полный экспорт
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

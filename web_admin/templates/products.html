@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Управление продуктами</h2>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addProductModal">
+        <i class="bi bi-plus-circle"></i> Добавить продукт
+    </button>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Название</th>
+                <th>Описание</th>
+                <th>Преимущества</th>
+                <th>Отзыв</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in products %}
+            <tr>
+                <td>{{ product[0] }}</td>
+                <td>{{ product[1] }}</td>
+                <td>{{ product[2][:50] }}...</td>
+                <td>{{ product[3][:50] }}...</td>
+                <td>{{ product[4][:50] }}...</td>
+                <td>
+                    <div class="btn-group" role="group">
+                        <a href="{{ url_for('edit_product', product_id=product[0]) }}" class="btn btn-sm btn-primary me-1">
+                            <i class="bi bi-pencil"></i> Редакт.
+                        </a>
+                        <a href="{{ url_for('delete_product', product_id=product[0]) }}" class="btn btn-sm btn-danger" 
+                           onclick="return confirm('Вы уверены, что хотите удалить этот продукт?')">
+                            <i class="bi bi-trash"></i> Удалить
+                        </a>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Modal for adding a product -->
+<div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addProductModalLabel">Добавить новый продукт</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="POST" action="{{ url_for('add_product') }}">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Название продукта</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Описание</label>
+                        <textarea class="form-control" id="description" name="description" rows="2" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="benefits" class="form-label">Преимущества</label>
+                        <textarea class="form-control" id="benefits" name="benefits" rows="2" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="testimonial" class="form-label">Отзыв</label>
+                        <textarea class="form-control" id="testimonial" name="testimonial" rows="2" required></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                    <button type="submit" class="btn btn-primary">Добавить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
