@@ -2,8 +2,6 @@ from .base import Base  # Используем относительный имп
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
 from datetime import datetime
 
-Base = declarative_base()
-
 class UserProgress(Base):
     __tablename__ = 'user_progress'
     
